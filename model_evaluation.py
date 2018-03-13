@@ -3,6 +3,7 @@ import pickle
 import numpy as np
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils.np_utils import to_categorical
+import makeCompatible as mc
 
 with open('data.pkl', 'rb') as f:
 	X_train, Y_train, word2int, int2word, tag2int, int2tag = pickle.load(f)
@@ -15,7 +16,6 @@ statement='نظامی می\u200cگوید که در سال ۵۱۰ تربت او �
 
 model = load_model('initial_model.h5')
 def pred (statement):
-	print (statement)
 	tokenised_statement = []
 	for word in statement:
 		try:
@@ -27,7 +27,6 @@ def pred (statement):
 	prediction = model.predict(tokenised_statement)
 	tagSent = []
 	for pred in prediction[0]:
-
 		try:
 			tagSent.append(int2tag[np.argmax(pred)])
 		except:
@@ -64,6 +63,7 @@ def findAcc ():
 	false = 0
 	true = 0
 	for i in range (len(txTrain)):
+		print ('txTrain[i]',txTrain[i])
 		res = pred(txTrain[i])
 		myTag = tgTrain[i]
 		print (res)
@@ -76,6 +76,31 @@ def findAcc ():
 	print (float(true)/total)
 
 
+def tag_user_input ():
+	fo = open('user.txt','r')
+	fr = fo.read()
+	text = mc.normalize_user_text(fr)
+	sent_tag = []
+	for sent in text:
+		a = pred(sent.split())
+		sent_tag.append([sent,a])
+	return sent_tag
 
+def print_word_tag ():
+	myStr = ''
+	st_tag = tag_user_input()
+	for each in st_tag:
+		sent_splited = each[0].split()
+		for i in range (len(each[1])):
+			
+			myStr+=str(sent_splited[i])+'/'+str(each[1][i])+' '
+		myStr+='\n'
+	print (myStr)
+
+
+
+print_word_tag()
+	
+#print (tag_user_input())
 #print (pred(statement))
-findAcc()
+#findAcc()
