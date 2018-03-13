@@ -6,6 +6,6 @@ I have trained the model on [Hamshahri corpus](http://dbrg.ut.ac.ir/Hamshahri/) 
 
 
 In second commit I added makeCompatible.py which normalize persian text. I have used [this code](https://github.com/JKhakpour/virastar.py/blob/master/virastar.py), and slightly have changed it for tokenizing and normalizing input text.
-you can put your arbitrary input text in user.txt file, and call model_evaluation.py and get word/POS-tag format of your input.
+You can put your arbitrary input text in user.txt file, and call model_evaluation.py and get word/POS-tag format of your input.
 
 
